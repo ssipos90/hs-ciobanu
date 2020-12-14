@@ -1,0 +1,72 @@
+name:                peasant
+version:             0.1.0.0
+github:              ssipos90/peasant
+license:             BSD3
+author:              Sebastian Sipos
+maintainer:          sebastiansipos90@gmail.com
+copyright:           MIT
+
+extra-source-files:
+- README.md
+- ChangeLog.md
+
+# Metadata used when publishing your package
+# synopsis:            Short description of your package
+# category:            Web
+
+# To avoid duplicated efforts in documentation and dealing with the
+# complications of embedding Haddock markup inside cabal files, it is
+# common to point users to the README.md file.
+description:         Please see the README on Github at <https://github.com/ssipos90/peasant#readme>
+
+dependencies:
+- aeson >= 1.4.7
+- base >= 4.11 && < 10
+- bytestring >= 0.10.8.2 && < 0.11
+- mongoDB >= 2.7.0
+- rio >= 0.1.12.0
+- microlens >= 0.4.11.2 && < 0.5
+- microlens-mtl >= 0.2.0 && < 0.3
+- microlens-th >= 0.4.2 && < 0.5
+- scotty >= 0.11.6
+- time >= 1.9.3
+
+ghc-options:
+- -Wall
+- -Wcompat
+- -Widentities
+- -Wincomplete-record-updates
+- -Wincomplete-uni-patterns
+- -Wpartial-fields
+- -Wredundant-constraints
+
+library:
+  source-dirs: src
+
+default-extensions:  NoImplicitPrelude
+
+executables:
+  peasant-exe:
+    main:                Main.hs
+    source-dirs:         app
+    dependencies:
+    - peasant
+    - optparse-simple
+
+    ghc-options:
+    - -threaded
+    - -rtsopts
+    - -with-rtsopts=-N
+
+tests:
+  peasant-test:
+    main:                Spec.hs
+    source-dirs:         test
+    dependencies:
+    - peasant
+    - hspec
+
+    ghc-options:
+    - -threaded
+    - -rtsopts
+    - -with-rtsopts=-N

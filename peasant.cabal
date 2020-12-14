@@ -1,0 +1,99 @@
+cabal-version: 1.12
+
+-- This file has been generated from package.yaml by hpack version 0.33.0.
+--
+-- see: https://github.com/sol/hpack
+--
+-- hash: b00c7493b8d6aa1063966a8262af84a0a01b1d6652489d904e432a83f54ccc9c
+
+name:           peasant
+version:        0.1.0.0
+description:    Please see the README on Github at <https://github.com/ssipos90/peasant#readme>
+homepage:       https://github.com/ssipos90/peasant#readme
+bug-reports:    https://github.com/ssipos90/peasant/issues
+author:         Sebastian Sipos
+maintainer:     sebastiansipos90@gmail.com
+copyright:      MIT
+license:        BSD3
+license-file:   LICENSE
+build-type:     Simple
+extra-source-files:
+    README.md
+    ChangeLog.md
+
+source-repository head
+  type: git
+  location: https://github.com/ssipos90/peasant
+
+library
+  exposed-modules:
+      Import
+      Run
+      Types
+      Util
+  other-modules:
+      Paths_peasant
+  hs-source-dirs:
+      src
+  default-extensions: NoImplicitPrelude
+  ghc-options: -Wall -Wcompat -Widentities -Wincomplete-record-updates -Wincomplete-uni-patterns -Wpartial-fields -Wredundant-constraints
+  build-depends:
+      aeson >=1.4.7
+    , base >=4.11 && <10
+    , bytestring >=0.10.8.2 && <0.11
+    , microlens >=0.4.11.2 && <0.5
+    , microlens-mtl >=0.2.0 && <0.3
+    , microlens-th >=0.4.2 && <0.5
+    , mongoDB >=2.7.0
+    , rio >=0.1.12.0
+    , scotty >=0.11.6
+    , time >=1.9.3
+  default-language: Haskell2010
+
+executable peasant-exe
+  main-is: Main.hs
+  other-modules:
+      Paths_peasant
+  hs-source-dirs:
+      app
+  default-extensions: NoImplicitPrelude
+  ghc-options: -Wall -Wcompat -Widentities -Wincomplete-record-updates -Wincomplete-uni-patterns -Wpartial-fields -Wredundant-constraints -threaded -rtsopts -with-rtsopts=-N
+  build-depends:
+      aeson >=1.4.7
+    , base >=4.11 && <10
+    , bytestring >=0.10.8.2 && <0.11
+    , microlens >=0.4.11.2 && <0.5
+    , microlens-mtl >=0.2.0 && <0.3
+    , microlens-th >=0.4.2 && <0.5
+    , mongoDB >=2.7.0
+    , optparse-simple
+    , peasant
+    , rio >=0.1.12.0
+    , scotty >=0.11.6
+    , time >=1.9.3
+  default-language: Haskell2010
+
+test-suite peasant-test
+  type: exitcode-stdio-1.0
+  main-is: Spec.hs
+  other-modules:
+      UtilSpec
+      Paths_peasant
+  hs-source-dirs:
+      test
+  default-extensions: NoImplicitPrelude
+  ghc-options: -Wall -Wcompat -Widentities -Wincomplete-record-updates -Wincomplete-uni-patterns -Wpartial-fields -Wredundant-constraints -threaded -rtsopts -with-rtsopts=-N
+  build-depends:
+      aeson >=1.4.7
+    , base >=4.11 && <10
+    , bytestring >=0.10.8.2 && <0.11
+    , hspec
+    , microlens >=0.4.11.2 && <0.5
+    , microlens-mtl >=0.2.0 && <0.3
+    , microlens-th >=0.4.2 && <0.5
+    , mongoDB >=2.7.0
+    , peasant
+    , rio >=0.1.12.0
+    , scotty >=0.11.6
+    , time >=1.9.3
+  default-language: Haskell2010
