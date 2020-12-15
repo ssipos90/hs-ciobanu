@@ -1,4 +1,3 @@
-{-# LANGUAGE TemplateHaskell #-}
 module Main (main) where
 
 import Import
@@ -9,11 +8,6 @@ import qualified Paths_peasant
 import qualified Database.MongoDB as Mongo
 import System.Environment (lookupEnv)
 import RIO.Partial (read)
-
-data Environment
-  = Development
-  | Testing
-  | Production
 
 getEnvironment :: IO Environment
 getEnvironment =
@@ -33,6 +27,7 @@ getConfig = do
         pipe = p
       }
 
+
 main :: IO ()
 main = do
   (options, ()) <- simpleOptions
@@ -48,8 +43,8 @@ main = do
     empty
   lo <- logOptionsHandle stderr (optionsVerbose options)
   pc <- mkDefaultProcessContext
+  config <- getConfig
   withLogFunc lo $ \lf ->
-    config <- getConfig
     let app = App
           { appLogFunc = lf
           , appProcessContext = pc

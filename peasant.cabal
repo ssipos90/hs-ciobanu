@@ -4,7 +4,7 @@ cabal-version: 1.12
 --
 -- see: https://github.com/sol/hpack
 --
--- hash: b00c7493b8d6aa1063966a8262af84a0a01b1d6652489d904e432a83f54ccc9c
+-- hash: 48ccd8f682fe74a0dd70e1baca550332a22a9d87d4bcea259c7874fbacac9433
 
 name:           peasant
 version:        0.1.0.0
@@ -35,7 +35,7 @@ library
       Paths_peasant
   hs-source-dirs:
       src
-  default-extensions: NoImplicitPrelude
+  default-extensions: NoImplicitPrelude OverloadedStrings
   ghc-options: -Wall -Wcompat -Widentities -Wincomplete-record-updates -Wincomplete-uni-patterns -Wpartial-fields -Wredundant-constraints
   build-depends:
       aeson >=1.4.7
@@ -56,7 +56,7 @@ executable peasant-exe
       Paths_peasant
   hs-source-dirs:
       app
-  default-extensions: NoImplicitPrelude
+  default-extensions: NoImplicitPrelude OverloadedStrings
   ghc-options: -Wall -Wcompat -Widentities -Wincomplete-record-updates -Wincomplete-uni-patterns -Wpartial-fields -Wredundant-constraints -threaded -rtsopts -with-rtsopts=-N
   build-depends:
       aeson >=1.4.7
@@ -81,7 +81,7 @@ test-suite peasant-test
       Paths_peasant
   hs-source-dirs:
       test
-  default-extensions: NoImplicitPrelude
+  default-extensions: NoImplicitPrelude OverloadedStrings
   ghc-options: -Wall -Wcompat -Widentities -Wincomplete-record-updates -Wincomplete-uni-patterns -Wpartial-fields -Wredundant-constraints -threaded -rtsopts -with-rtsopts=-N
   build-depends:
       aeson >=1.4.7
