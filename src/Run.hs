@@ -1,19 +1,13 @@
-{-# LANGUAGE NamedFieldPuns #-}
-{-# LANGUAGE NoImplicitPrelude #-}
-
 module Run (run, Environment (..)) where
 
-import Data.Aeson (FromJSON, ToJSON, object, parseJSON, toJSON, withObject, (.=))
--- import Data.Time.Clock.POSIX (getPOSIXTime)
-import Database.MongoDB ((=:))
 import qualified Database.MongoDB as Mongo
 import Import
 import qualified Web.Scotty as S
 
 blogPostsIndexAction :: Config -> S.ActionM ()
 blogPostsIndexAction c = do
-  bpds <- Mongo.access (c ^. _pipe) Mongo.master "catalog" $ do
-    Mongo.rest =<< Mongo.find (Mongo.select [] "products")
+  bpds <- Mongo.access (c ^. _pipe) Mongo.master "playCiobanu" $ do
+    Mongo.rest =<< Mongo.find (Mongo.select [] "blogPosts")
   S.json $ filter isJust $ fmap (\doc -> fromDoc doc :: Maybe BlogPost) bpds
 
 -- blogPostsCreateAction :: Config -> S.ActionM ()
@@ -28,6 +22,9 @@ blogPostsIndexAction c = do
 --  close pipe
 --  print e
 
+suckIt :: MonadIO m => Mongo.Pipe -> Mongo.Action m a -> m a
+suckIt p = Mongo.access p Mongo.master "playCiobanu"
+
 run :: RIO App ()
 run = do
   logInfo "We're inside the application!"
@@ -37,7 +34,7 @@ run = do
     S.scotty 3000 $ do
       S.get "/blog-posts" $ blogPostsIndexAction c
       S.post "/blog-posts" $ do
-        payload <- S.jsonData :: S.ActionM BlogPost
-        asd <- Mongo.access (c ^. _pipe) Mongo.master "catalog" $ do
-          Mongo.insert "products" $ toDoc payload
-        S.json $ show asd
+        bp <- S.jsonData :: S.ActionM BlogPost
+        ret <- suckIt (c ^. _pipe) $ do
+          Mongo.insert "products" $ toDoc bp
+        S.json $ show ret

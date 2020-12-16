@@ -1,3 +1,6 @@
+{-# LANGUAGE TemplateHaskell #-}
+{-# LANGUAGE LambdaCase #-}
+
 module Main (main) where
 
 import Import
@@ -5,18 +8,30 @@ import Run
 import RIO.Process
 import Options.Applicative.Simple
 import qualified Paths_peasant
+
 import qualified Database.MongoDB as Mongo
 import System.Environment (lookupEnv)
-import RIO.Partial (read)
+
+import qualified RIO.ByteString as BS
+import qualified RIO.Text as T
 
 getEnvironment :: IO Environment
-getEnvironment =
-  fmap
-    (maybe Development read)
-    (lookupEnv "SCOTTY_ENV")
+getEnvironment = do
+  lookupEnv "SCOTTY_ENV" >>= \case
+    Nothing -> BS.putStr "No env specified\n"
+    Just env -> BS.putStr $ T.encodeUtf8 (T.pack env <> " env, however ignoring and setting development\n" :: Text)
+  return Development
+  -- return $ case env of
+  --   Nothing -> Development
+  --   Just e -> readEnv e
 
 getMongoPipe :: Environment -> IO Mongo.Pipe
-getMongoPipe _ = Mongo.connect (Mongo.host "127.0.0.1")
+getMongoPipe _ = do
+  p <- Mongo.connect (Mongo.host "127.0.0.1")
+  isAuthenticated <- Mongo.access p Mongo.master "admin" (Mongo.auth "play" "1q2w3e")
+  if isAuthenticated
+    then return p
+    else exitFailure
 
 getConfig :: IO Config
 getConfig = do
@@ -43,12 +58,12 @@ main = do
     empty
   lo <- logOptionsHandle stderr (optionsVerbose options)
   pc <- mkDefaultProcessContext
-  config <- getConfig
+  c <- getConfig
   withLogFunc lo $ \lf ->
     let app = App
           { appLogFunc = lf
           , appProcessContext = pc
           , appOptions = options
-          , config = config
+          , config = c
           }
      in runRIO app run

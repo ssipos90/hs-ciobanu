@@ -9,7 +9,6 @@ import Database.MongoDB ((=:))
 import Data.Aeson (FromJSON, ToJSON, object, toJSON, parseJSON, withObject, (.=), (.:))
 import Lens.Micro.TH (makeLensesFor)
 
--- | Command line arguments
 data Options = Options
   { optionsVerbose :: !Bool
   }
@@ -18,6 +17,7 @@ data Environment
   = Development
   | Testing
   | Production
+  deriving (Show, Read)
 
 data Config = Config
   { environment :: Environment,
