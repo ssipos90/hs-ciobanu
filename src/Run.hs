@@ -29,7 +29,6 @@ run :: RIO App ()
 run = do
   logInfo "We're inside the application!"
   App {config = c} <- ask
-  logDebug "asd"
   liftIO $ do
     S.scotty 3000 $ do
       S.get "/blog-posts" $ blogPostsIndexAction c
