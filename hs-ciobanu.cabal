@@ -4,13 +4,13 @@ cabal-version: 1.12
 --
 -- see: https://github.com/sol/hpack
 --
--- hash: 48ccd8f682fe74a0dd70e1baca550332a22a9d87d4bcea259c7874fbacac9433
+-- hash: 8e478a68fa8b95497e4fa7e7885ce91041b9fb43f5f368befe9ef8868d60fb24
 
-name:           peasant
+name:           hs-ciobanu
 version:        0.1.0.0
-description:    Please see the README on Github at <https://github.com/ssipos90/peasant#readme>
-homepage:       https://github.com/ssipos90/peasant#readme
-bug-reports:    https://github.com/ssipos90/peasant/issues
+description:    Please see the README on Github at <https://github.com/ssipos90/hs-ciobanu#readme>
+homepage:       https://github.com/ssipos90/hs-ciobanu#readme
+bug-reports:    https://github.com/ssipos90/hs-ciobanu/issues
 author:         Sebastian Sipos
 maintainer:     sebastiansipos90@gmail.com
 copyright:      MIT
@@ -23,7 +23,7 @@ extra-source-files:
 
 source-repository head
   type: git
-  location: https://github.com/ssipos90/peasant
+  location: https://github.com/ssipos90/hs-ciobanu
 
 library
   exposed-modules:
@@ -32,7 +32,7 @@ library
       Types
       Util
   other-modules:
-      Paths_peasant
+      Paths_hs_ciobanu
   hs-source-dirs:
       src
   default-extensions: NoImplicitPrelude OverloadedStrings
@@ -50,10 +50,10 @@ library
     , time >=1.9.3
   default-language: Haskell2010
 
-executable peasant-exe
+executable hs-ciobanu-exe
   main-is: Main.hs
   other-modules:
-      Paths_peasant
+      Paths_hs_ciobanu
   hs-source-dirs:
       app
   default-extensions: NoImplicitPrelude OverloadedStrings
@@ -62,23 +62,23 @@ executable peasant-exe
       aeson >=1.4.7
     , base >=4.11 && <10
     , bytestring >=0.10.8.2 && <0.11
+    , hs-ciobanu
     , microlens >=0.4.11.2 && <0.5
     , microlens-mtl >=0.2.0 && <0.3
     , microlens-th >=0.4.2 && <0.5
     , mongoDB >=2.7.0
     , optparse-simple
-    , peasant
     , rio >=0.1.12.0
     , scotty >=0.11.6
     , time >=1.9.3
   default-language: Haskell2010
 
-test-suite peasant-test
+test-suite hs-ciobanu-test
   type: exitcode-stdio-1.0
   main-is: Spec.hs
   other-modules:
       UtilSpec
-      Paths_peasant
+      Paths_hs_ciobanu
   hs-source-dirs:
       test
   default-extensions: NoImplicitPrelude OverloadedStrings
@@ -87,12 +87,12 @@ test-suite peasant-test
       aeson >=1.4.7
     , base >=4.11 && <10
     , bytestring >=0.10.8.2 && <0.11
+    , hs-ciobanu
     , hspec
     , microlens >=0.4.11.2 && <0.5
     , microlens-mtl >=0.2.0 && <0.3
     , microlens-th >=0.4.2 && <0.5
     , mongoDB >=2.7.0
-    , peasant
     , rio >=0.1.12.0
     , scotty >=0.11.6
     , time >=1.9.3

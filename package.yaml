@@ -1,6 +1,6 @@
-name:                peasant
+name:                hs-ciobanu
 version:             0.1.0.0
-github:              ssipos90/peasant
+github:              ssipos90/hs-ciobanu
 license:             BSD3
 author:              Sebastian Sipos
 maintainer:          sebastiansipos90@gmail.com
@@ -17,7 +17,7 @@ extra-source-files:
 # To avoid duplicated efforts in documentation and dealing with the
 # complications of embedding Haddock markup inside cabal files, it is
 # common to point users to the README.md file.
-description:         Please see the README on Github at <https://github.com/ssipos90/peasant#readme>
+description:         Please see the README on Github at <https://github.com/ssipos90/hs-ciobanu#readme>
 
 dependencies:
 - aeson >= 1.4.7
@@ -48,11 +48,11 @@ default-extensions:
     - OverloadedStrings
 
 executables:
-  peasant-exe:
+  hs-ciobanu-exe:
     main:                Main.hs
     source-dirs:         app
     dependencies:
-    - peasant
+    - hs-ciobanu
     - optparse-simple
 
     ghc-options:
@@ -61,11 +61,11 @@ executables:
     - -with-rtsopts=-N
 
 tests:
-  peasant-test:
+  hs-ciobanu-test:
     main:                Spec.hs
     source-dirs:         test
     dependencies:
-    - peasant
+    - hs-ciobanu
     - hspec
 
     ghc-options:

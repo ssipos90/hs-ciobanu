@@ -1,3 +1,3 @@
-# Changelog for peasant
+# Changelog for hs-ciobanu
 
 ## Unreleased changes
