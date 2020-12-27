@@ -1,0 +1,14 @@
+GET http://localhost:3000/blog-posts
+Content-Type: application/json
+Accept: application/json
+
+###
+
+POST http://localhost:3000/blog-posts
+Content-Type: application/json
+Accept: application/json
+
+{
+  "title": "Lorem ipsum",
+  "content": "Some content here"
+}

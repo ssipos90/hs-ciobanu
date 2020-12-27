@@ -1,39 +1,27 @@
-module Run (run, Environment (..)) where
+module Run (run) where
 
 import qualified Database.MongoDB as Mongo
 import Import
-import qualified Web.Scotty as S
+import qualified Web.Scotty.Trans as ST
+import qualified RIO.Text.Lazy as TL
 
-blogPostsIndexAction :: Config -> S.ActionM ()
-blogPostsIndexAction c = do
-  bpds <- Mongo.access (c ^. _pipe) Mongo.master "playCiobanu" $ do
-    Mongo.rest =<< Mongo.find (Mongo.select [] "blogPosts")
-  S.json $ filter isJust $ fmap (\doc -> fromDoc doc :: Maybe BlogPost) bpds
+query :: MonadIO m => App -> Mongo.Action m a -> m a
+query app = Mongo.access (app ^. _pipe) Mongo.master (app ^. _dbName)
 
--- blogPostsCreateAction :: Config -> S.ActionM ()
--- blogPostsCreateAction c = do
-
---  e <- Mongo.access pipe Mongo.master "baseball" $ do
---   clearTeams
---   insertTeams
---   allTeams >>= printDocs "All Teams"
---   nationalLeagueTeams >>= printDocs "National League Teams"
---   newYorkTeams >>= printDocs "New York Teams"
---  close pipe
---  print e
-
-suckIt :: MonadIO m => Mongo.Pipe -> Mongo.Action m a -> m a
-suckIt p = Mongo.access p Mongo.master "playCiobanu"
+blogPostsIndexAction :: (ST.ScottyError e, MonadIO m) => App -> ST.ActionT e m ()
+blogPostsIndexAction app = do
+  posts <- query app $ do
+     Mongo.rest =<< Mongo.find (Mongo.select [] "blogPosts")
+  ST.json $ filter isJust $ fmap (\doc -> fromDoc doc :: Maybe BlogPost) posts
 
 run :: RIO App ()
 run = do
-  logInfo "We're inside the application!"
-  App {config = c} <- ask
-  liftIO $ do
-    S.scotty 3000 $ do
-      S.get "/blog-posts" $ blogPostsIndexAction c
-      S.post "/blog-posts" $ do
-        bp <- S.jsonData :: S.ActionM BlogPost
-        ret <- suckIt (c ^. _pipe) $ do
-          Mongo.insert "products" $ toDoc bp
-        S.json $ show ret
+  app <- ask
+  ST.scottyT 3000 (runRIO app) $ do
+    ST.get "/blog-posts" $ blogPostsIndexAction app
+    ST.post "/blog-posts" $ do
+      bp <- ST.jsonData :: ST.ActionT TL.Text (RIO App) BlogPost
+      ret <- query app $ do
+        Mongo.insert "blogPosts" $ toDoc bp
+      logInfo "blog post inserted"
+      ST.json $ show ret

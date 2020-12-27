@@ -13,21 +13,6 @@ data Options = Options
   { optionsVerbose :: !Bool
   }
 
-data Environment
-  = Development
-  | Testing
-  | Production
-  deriving (Show, Read)
-
-data Config = Config
-  { environment :: Environment,
-    pipe :: Mongo.Pipe
-  }
-
-makeLensesFor [ ("pipe", "_pipe")
-              , ("environment", "_environment")
-              ] ''Config
-
 data BlogPost = BlogPost
   { title :: Text,
     content :: Text
@@ -66,12 +51,17 @@ instance MongoIO BlogPost where
 data App = App
   { appLogFunc :: !LogFunc
   , appProcessContext :: !ProcessContext
-  , appOptions :: !Options
-  , config :: Config
-  -- Add other app-specific configuration information here
+  , pipe :: Mongo.Pipe
+  , dbName :: Text
   }
+
+makeLensesFor [ ("pipe", "_pipe")
+              , ("environment", "_environment")
+              , ("dbName", "_dbName")
+              ] ''App
 
 instance HasLogFunc App where
   logFuncL = lens appLogFunc (\x y -> x { appLogFunc = y })
+
 instance HasProcessContext App where
   processContextL = lens appProcessContext (\x y -> x { appProcessContext = y })
