@@ -20,11 +20,11 @@ main = do
   lo <- logOptionsHandle stdout True
   pc <- mkDefaultProcessContext
   withLogFunc lo $ \lf -> do
-    p <- liftIO getMongoPipe
+    pipe <- liftIO getMongoPipe
     let app = App
           { appLogFunc = lf
           , appProcessContext = pc
-          , pipe = p
+          , dbPipe = pipe
           , dbName = "playCiobanu"
           }
      in runRIO app run
