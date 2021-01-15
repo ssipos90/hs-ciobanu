@@ -1,19 +1,19 @@
+{-# LANGUAGE LambdaCase      #-}
 {-# LANGUAGE TemplateHaskell #-}
-{-# LANGUAGE LambdaCase #-}
 
 module Main (main) where
 
-import Import
-import Run
-import RIO.Process
 import qualified Database.MongoDB as Mongo
+import           Import
+import           RIO.Process      (mkDefaultProcessContext)
+import           Run              (run)
 
 getMongoPipe :: IO Mongo.Pipe
 getMongoPipe = do
   p <- Mongo.connect (Mongo.host "127.0.0.1")
   Mongo.access p Mongo.master "admin" (Mongo.auth "play" "1q2w3e") >>= \case
     False -> exitWith $ ExitFailure 2
-    True -> return p
+    True  -> return p
 
 main :: IO ()
 main = do
